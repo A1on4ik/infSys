@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class CPU {
+    +CurrentPosition: long
+    +RunTime: long
+    +Workload: percent
+    #CPU()
+    +Freeze(): void
+    +Jump(long position): void
+    +Execute() : void
+}
+
+class HardDrive {
+    +CurrentAddress: long
+    +Workload: percent
+    #HardDrive()
+    +Read(long addressing, int size) : char*
+}
+
+class Memory {
+    +CurrentPosition: long
+    +LoadedData: char*
+      +Workload: percent
+    #Memory()
+    +Load(long position, char* data) : void
+}
+
+class ComputerFacade {
+  -CPU cpu_;
+  -Memory memory_;
+  -HardDrive hard_drive_;
+
+    +Computer()
+    +Start(): void
+    +Run(): void
+    +ShutDown(): void
+}
+note right of ComputerFacade
+void Start() {
+    cpu_.Freeze();
+    memory_.Load(BootAddress, hard_drive_.Read(BootSector, SectorSize));
+    cpu_.Jump(BootAddress);
+    cpu_.Execute();
+  }
+end note
+
+class User {
+#User()
++main(): void
+}
+
+note left of User
+main() {
+  ComputerFacade computer;
+  computer.Start();
+}
+end note
+
+ComputerFacade --> CPU
+ComputerFacade --> HardDrive
+ComputerFacade --> Memory
+
+User <-> ComputerFacade
+@enduml

@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class User {
+-Username : string
++Role : string
++Create()
++Open()
++CheckRole()
+}
+note bottom: Different users access same apps
+
+class App {
+-AppName : string
+-Publisher : string
+}
+
+class Platform {
+-Name : string
+-NumberOfApps : number
+
++FindAppByName(App name : string) : App
++AddNewApp() : boolean
++DeleteApp() : boolean
+}
+
+class File {
+-FileName : string
+-FileExtension : string
+}
+
+abstract class AbstractApp {
++ID : number
+-Name : string
++Open()
++Delete()
+}
+
+interface PlatformEntity {
++getID() : number
++getName() : string
+}
+
+PlatformEntity "0..1 " <---> "1 " Platform
+
+Platform "*" <-> "*" User
+
+PlatformEntity "1" <--> "*" AbstractApp
+App --|> AbstractApp
+File --|> AbstractApp
+
+
+@enduml

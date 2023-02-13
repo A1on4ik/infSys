@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class word {
+-length : number
+-alphabet : string
+-first letter : char
++Check()
+}
+
+class slovarik {
+-author : string
+-aphabet : string
++FindWord(word)
++AddWord(word)
++DeleteWord()
+}
+note bottom : slovarik can have id for word
+
+class number {
+-length : number
+}
+
+interface Slovarik_Entity {
++CheckWord(word)
+}
+
+abstract class Symbols {
+}
+
+interface new_word {
++UpdateWord()
+}
+
+slovarik .> Slovarik_Entity
+word <---> slovarik
+
+Symbols <.. number
+Symbols <.. word
+
+new_word <...> slovarik
+new_word -> word
+@enduml
